@@ -9,7 +9,7 @@ import (
 
 // GenerateMarkdown is exported
 func GenerateMarkdown(w http.ResponseWriter, r *http.Request) {
-	markdown := blackfriday.Run([]byte(r.FormValue("body")))
+	markdown := blackfriday.MarkdownCommon([]byte(r.FormValue("body")))
 	w.Write(markdown)
 }
 func main() {
