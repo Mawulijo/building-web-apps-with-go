@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/russross/blackfriday"
+	blackfriday "gopkg.in/russross/blackfriday.v2"
 )
 
 // GenerateMarkdown is exported
