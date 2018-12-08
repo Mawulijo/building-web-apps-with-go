@@ -1,1 +1,1 @@
-web : BWAWG01
+web: BWAWG01
