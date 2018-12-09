@@ -49,12 +49,6 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-<<<<<<< HEAD
-	// for index page
-	http.Handle("/", http.FileServer(http.Dir("public")))
-	http.HandleFunc("/markdown", GenerateMarkdown)
-	http.ListenAndServe(":"+port, nil)
-=======
 
 	r := httprouter.New()
 	r.GET("/", HomeHandler)
@@ -71,5 +65,4 @@ func main() {
 
 	fmt.Println("Starting server on :8080")
 	http.ListenAndServe(":"+port, r)
->>>>>>> URL-Routing
 }
