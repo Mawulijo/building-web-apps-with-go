@@ -2,8 +2,7 @@
 
 
 ```
-git branch
-
+$ git branch
   URL-Routing
   github-branch
 * master
