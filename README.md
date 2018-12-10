@@ -7,5 +7,7 @@ $ git branch
   github-branch
   markdown-generator
   negroni-middleware
+  rendering-json
+  rendering-HTML-templates
 * master
 ```

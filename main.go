@@ -1,14 +1,15 @@
 package main
 
 import (
-	"encoding/json"
+	"html/template"
 	"net/http"
+	"path"
 )
 
 // Book is exported
 type Book struct {
-	Title string `json:"title"`
-	Autor string `json:"autthor"`
+	Title  string `json:"title"`
+	Author string `json:"autthor"`
 }
 
 func showBooks(w http.ResponseWriter, r *http.Request) {
@@ -16,13 +17,15 @@ func showBooks(w http.ResponseWriter, r *http.Request) {
 		"Bulding Web Apps With Go",
 		"Jeremy Saenz",
 	}
-	books, err := json.Marshal(book)
+	filePath := path.Join("templates", "index.html")
+	templ, err := template.ParseFiles(filePath)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(books)
+	if err := templ.Execute(w, book); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func main() {
