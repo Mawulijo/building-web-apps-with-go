@@ -9,5 +9,6 @@ $ git branch
   negroni-middleware
   rendering-json
   rendering-HTML-templates
+  rendering-render-package
 * master
 ```
