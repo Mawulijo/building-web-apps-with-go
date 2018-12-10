@@ -1,36 +1,38 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
-	"github.com/codegangsta/negroni"
-	"github.com/julienschmidt/httprouter"
+	"github.com/unrolled/render"
 )
 
-// HelloWorld is exported
-func HelloWorld(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	fmt.Fprint(w, "Hello World")
+type MyController struct {
+	AppController
+	*render.Render
 }
 
-// App is exported
-func App() http.Handler {
-	n := negroni.Classic()
+// Action defines a standard function signature for us to use when creating
+// controller actions. A controller action is basically just a method attached to a controller.
+type Action func(w http.ResponseWriter, r *http.Request) error
 
-	m := func(res http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
-		fmt.Fprint(res, "Before...")
-		next(res, req)
-		fmt.Fprint(res, "...After")
-	}
-	n.Use(negroni.HandlerFunc(m))
+// This is our Base Controller
+type AppController struct{}
 
-	r := httprouter.New()
+// The action function helps with error handling in a controller
+func (c *AppController) Action(a Action) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if err := a(w, r); err != nil {
+			http.Error(w, err.Error(), 500)
+		}
+	})
+}
 
-	r.GET("/", HelloWorld)
-	n.UseHandler(r)
-	return n
+func (c *MyController) Index(rw http.ResponseWriter, r *http.Request) error {
+	c.JSON(rw, 200, map[string]string{"Hello": "JSON"})
+	return nil
 }
 
 func main() {
-	http.ListenAndServe(":3000", App())
+	c := &MyController{Render: render.New(render.Options{})}
+	http.ListenAndServe(":8080", c.Action(c.Location))
 }
