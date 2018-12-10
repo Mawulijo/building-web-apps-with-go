@@ -11,11 +11,14 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Hello World")
 }
 
+<<<<<<< HEAD
 func main() {
 	http.HandleFunc("/", HelloWorld)
 	http.ListenAndServe(":3000", nil)
 =======
 
+=======
+>>>>>>> end-to-end-testing
 	"github.com/codegangsta/negroni"
 	"github.com/julienschmidt/httprouter"
 )
@@ -45,5 +48,8 @@ func App() http.Handler {
 
 func main() {
 	http.ListenAndServe(":3000", App())
+<<<<<<< HEAD
+>>>>>>> end-to-end-testing
+=======
 >>>>>>> end-to-end-testing
 }
