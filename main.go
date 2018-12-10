@@ -3,29 +3,14 @@ package main
 import (
 	"fmt"
 	"net/http"
-<<<<<<< HEAD
-)
 
-// HelloWorld is exported
-func HelloWorld(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello World")
-}
-
-<<<<<<< HEAD
-func main() {
-	http.HandleFunc("/", HelloWorld)
-	http.ListenAndServe(":3000", nil)
-=======
-
-=======
->>>>>>> end-to-end-testing
 	"github.com/codegangsta/negroni"
 	"github.com/julienschmidt/httprouter"
 )
 
 // HelloWorld is exported
-func HelloWorld(res http.ResponseWriter, req *http.Request, p httprouter.Params) {
-	fmt.Fprint(res, "Hello World")
+func HelloWorld(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Hello World")
 }
 
 // App is exported
@@ -48,8 +33,4 @@ func App() http.Handler {
 
 func main() {
 	http.ListenAndServe(":3000", App())
-<<<<<<< HEAD
->>>>>>> end-to-end-testing
-=======
->>>>>>> end-to-end-testing
 }
