@@ -10,5 +10,6 @@ $ git branch
   rendering-json
   rendering-HTML-templates
   rendering-render-package
+  testing
 * master
 ```
