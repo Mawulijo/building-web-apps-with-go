@@ -4,7 +4,6 @@
 ```
 $ git branch
   URL-Routing
-  github-branch
   markdown-generator
   negroni-middleware
   rendering-json
