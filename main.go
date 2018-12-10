@@ -1,30 +1,36 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
-	"github.com/unrolled/render"
+	"github.com/codegangsta/negroni"
+	"github.com/julienschmidt/httprouter"
 )
 
+// HelloWorld is exported
+func HelloWorld(res http.ResponseWriter, req *http.Request, p httprouter.Params) {
+	fmt.Fprint(res, "Hello World")
+}
+
+// App is exported
+func App() http.Handler {
+	n := negroni.Classic()
+
+	m := func(res http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
+		fmt.Fprint(res, "Before...")
+		next(res, req)
+		fmt.Fprint(res, "...After")
+	}
+	n.Use(negroni.HandlerFunc(m))
+
+	r := httprouter.New()
+
+	r.GET("/", HelloWorld)
+	n.UseHandler(r)
+	return n
+}
+
 func main() {
-	r := render.New(render.Options{})
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		w.Write([]byte("Welcome, visit sub pages now."))
-	})
-	mux.HandleFunc("/data", func(w http.ResponseWriter, req *http.Request) {
-		r.Data(w, http.StatusOK, []byte("Some binary data here."))
-	})
-
-	mux.HandleFunc("/json", func(w http.ResponseWriter, req *http.Request) {
-		r.JSON(w, http.StatusOK, map[string]string{"hello": "json"})
-	})
-	mux.HandleFunc("/html", func(w http.ResponseWriter, req *http.Request) {
-		name := "Joshua Agbeku"
-		// Assumes you have a template in ./templates called "example.tmpl"
-		// $ mkdir -p templates && echo "<h1>Hello {{.}}.</h1>" > templates/example.tmpl
-		r.HTML(w, http.StatusOK, "example", name)
-	})
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":3000", App())
 }
